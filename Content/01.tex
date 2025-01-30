@@ -1,0 +1,130 @@
+\newpage
+\section{Part 1: \v{C}ech Nerves}
+
+First, let us recall the definition of a sheaf.
+
+\begin{definition}[Site]{def:site}
+    Let $\Ca$ be a category with pullbacks. A \textbf{sieve} $S$ on an object $c \in \Ca$ is a sub-functor $S \subseteq \yo_c = \Hom_\Ca(-,c)$. A (Grothendieck) \textbf{site} on $\Ca$ consists of, for each object $c \in C$, a set of sieves $\text{Cov}(c)$ such that
+    \begin{itemize}
+        \item[(GT1)]{
+        If $S \in \text{Cov}(c)$ and $(f : c \to c') \in \Hom_\Ca(c,c')$ then $f^\ast S = S \times_{\yo_{c'}} \yo_c \in \text{Cov}(c')$
+        }
+        \item[(GT2)]{
+        Let $S \in \text{Cov}(c)$ and $T \subseteq \yo_{c'}$ be a sieve; if $f^\ast T \in \text{Cov}(c)$ for any $f : c \to c'$, then $T \in \text{Cov}(c')$ is a cover.
+        }
+        \item[(GT3)]{
+        For any $c \in \Ca$ we have $\yo_c \in \text{Cov}(c)$. 
+        }
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Sheaf]{def:sheaf}
+    Let $\Ca$ be a Grothendieck site. A \textbf{sheaf} on $\Ca$ is a presheaf $F : \Ca^\op \to \Set$ such that for any $c \in \Ca$ and cover $S \in \text{Cov}(c)$, the diagram
+        \[
+        F(c) 
+        \to \prod_{c_\alpha \in S} F(c_\alpha) 
+        \rightrightarrows \prod_{c_\alpha, c_\beta \in S} F(c_\alpha \times_c c_\beta)
+        \]
+    is an equaliser. These form a subcategory $\Sh(\Ca) \subseteq \PSh(\Ca)$ of sheaves.  
+\end{definition}
+
+\begin{definition}[Topos]{def:topos}
+    A \textbf{topos} is a category $\Ca$ which is equivalent to a category of sheaves $\Ca \simeq \Sh(\Ca_0)$ on some site $\Ca_0$. Equivalently, there is an inclusion $\Ca \hookrightarrow \PSh(\Ca_0)$ equipped with a left-exact\footnote{i.e. finite limit preserving.} left adjoint $L : \PSh(\Ca_0) \to \Ca$. 
+\end{definition}
+
+\begin{definition}[$\infty$-topos]{def:infty-topos}
+    An $\infty$-category $\Ca$ is an \textbf{$\infty$-topos} if there is an inclusion $\Ca \to \PSh(\Ca_0)$ with left-exact \textit{accessible}\footnote{i.e. preserves $\kappa$-filtered colimits for some $\kappa$.} left-adjoint $L : \PSh(\Ca_0) \to \Ca$ for some $\Ca_0$. 
+\end{definition}
+
+\begin{env}{Warning}{yellow}{warning:not-all-infty-topoi-are-sheaves}
+    It is \textbf{not yet known} if every $\infty$-topos is equivalent to sheaves on some site. 
+\end{env}
+
+\begin{definition}[\v{C}ech Nerve]{def:Cech-nerve}
+    Let $\Ca$ be a category with pullbacks (e.g. a site), the \textbf{\v{C}ech nerve} $\Ck(f)_\bullet$ of a morphism $f : U \to X$ in $\Ca$ is the simplicial object with $n$-simplicies given by
+        \[
+        \Ck(f : U \to X)_n
+        = \underset{n+1 \text{ times}}{\underbrace{U \times_X \dots \times_X U}}.
+        \] 
+\end{definition}
+
+\begin{definition}[\v{C}ech Nerve II]{def:Cech-nerve-II}
+    Let $\Ca$ be an $\infty$-category with pullbacks and $f : U \to X$ be a morphism in $\Ca$, viewed as a functor $f : (\mathbb{O}^{\leq0})^\op \to \Ca$. The \textbf{\v{C}ech nerve} $\Ck(f)_\bullet$ of $f$ is the simplicial object given by right Kan extending $f$ along the inclusion $\mathbb{O}^{\leq0} \hookrightarrow \mathbb{O}$. 
+\end{definition}
+
+In an $\infty$-topos we have that every groupoid object is, equivalently, the \v{C}ech nerve of some morphism. This is one of the Giraud-Rezk{\color{gray!80}(-Lurie)} axioms, which give a third characterisation of {\color{gray!80}($\infty$-)}topoi, and generalises the notion of effective equivalence relations in 1-topoi. 
+
+\begin{definition}[Nilpotent Completion]{def:nil-completion}
+    If $x : P \to X$ is a morphism in an $\infty$-topos $\Xk$ then we define the \textbf{nilpotent completion of $X$ at $x$} as the geometric realisation $X^\vee_x := \colim_{n \in \Delta^\op} \Ck(x)_n$. 
+\end{definition}
+
+\begin{env}[Fields]{Example}{green!20}{ex:cech-fields}
+    Let $\R \hookrightarrow \C$ be the inclusion of $\R$ into $\C$, considered as a morphism $f : \Spec\C \to \Spec\R$ of schemes. The fibre product of $f$ with itself is given by
+        \[
+        \Spec\C \times_{\Spec\R} \Spec\C
+        = \Spec\left( \C \otimes_\R \C \right)
+        \]
+    and so the \v{C}ech nerve of $f$ has $n$-simplicies given by $\Spec\left(\C \otimes_\R \dots \otimes_\R \C\right)$.
+
+    % Galois theory tells us that $\C \otimes_\R \C \cong \prod_{\sigma \in \Z/2\Z} \R$ and so we have that 
+    %     \begin{align*}
+    %     \Spec( \C \otimes_\R \C )
+    %     &\cong \Spec\left( \prod_{\sigma \in \Z/2\Z} \R \right) \\
+    %     &\cong \coprod_{\sigma \in \Z/2\Z} \Spec\R
+    %     \end{align*}
+\end{env}
+
+Example \ref{ex:cech-fields} gives us, equivalently, a co-simplicial resolution $\Delta \to \CRing$, which is, in fact, something called the cobar resolution!
+
+
+
+
+% Can I make a Galois theory statement, like;
+% A morphism $\varphi : A \to B$ of commutative rings is a $G$-Galois extension if and only if
+% (i) we have fixed-points $B^G \cong A$, and 
+% (ii) the nilpotent completion $B^\vee_\varphi \cong BG$ 
+
+
+
+\begin{env}[$\infty$-Sheaves]{Aside}{purple!20}{aside:infinity-sheaves}
+An object $c \in \Ca$ is \textbf{$S$-local} (where $S$ is a set of morphisms in $\Ca$) if, for every $s : x \to y$ in $S$, composition with $s$ gives an isomorphism $\Hom(y,c) \xrightarrow{\sim} \Hom(x,c)$ in $\Spaces$. Let $\Ca$ be a Grothendieck topology and let $S$ be the category of monomorphisms $U \hookrightarrow \yo_c$ which correspond to covering sieves for $c \in \Ca$. A presheaf $F \in \PSh(\Ca)$ is a \textbf{sheaf} if it is $S$-local.
+
+In particular, this means that for every $s : U \to \yo_c$, where $U$ is a cover of $c$, we have that composition with $s$ gives an equivalence
+    \begin{equation}\label{eqn:infty-sheaf-condition-I}
+    \Hom_{\PSh(\Ca)}(\yo_c, F) 
+    \xrightarrow{\sim} \Hom_{\PSh(\Ca)}(U, F).
+    \end{equation}
+If we have some cover by `opens' $\{\yo_{U_\alpha}\}_{\alpha \in \Lambda}$ of $c$ (i.e. each sieve $\yo_{U_\alpha}$ is a representable subfunctor of $\yo_c$) then we can take the \v{C}ech nerve $\Ck\left(f : U = \coprod_{\alpha\in\Lambda} \yo_{U_\alpha} \to \yo_c\right)_\bullet$. Then $F$ is local with respect to $\colim\Ck(f)_\bullet \to \yo_c$ if and only if
+    \[
+    F(c)
+    \simeq \Hom_{\PSh(\Ca)}\left(\colim\Ck(f)_\bullet, F\right)
+    = \lim \Hom_{\PSh(\Ca)}\left(\Ck(f)_\bullet, F\right).
+    \]
+Expanding the definition of $\Ck(f)_\bullet$, we get
+    \[
+    F(c)
+    \simeq \lim\left(
+        \begin{tikzcd}
+            \prod_{\alpha \in \Lambda} F(U_\alpha)
+                \arrow[r, shift left = 1] \arrow[r, shift right = 1]
+            & \prod_{\alpha, \beta \in \Lambda} \Hom_{\PSh(\Ca)}(\yo_{U_\alpha} \times_{\yo_c} \yo_{U_\beta}, F)
+                \arrow[r, shift left = 2] \arrow[r] \arrow[r, shift right = 2]
+            & \cdots
+        \end{tikzcd}
+    \right)
+    \]
+and since $\Ca$ has pullbacks, this reduces to
+    \[
+    F(c)
+    \simeq \lim\left(
+        \begin{tikzcd}
+            \prod_{\alpha \in \Lambda} F(U_\alpha)
+                \arrow[r, shift left = 1] \arrow[r, shift right = 1]
+            & \prod_{\alpha, \beta \in \Lambda} F(U_\alpha \times_c U_\beta)
+                \arrow[r, shift left = 2] \arrow[r] \arrow[r, shift right = 2]
+            & \cdots
+        \end{tikzcd}
+    \right).
+    \]
+\end{env}
+`

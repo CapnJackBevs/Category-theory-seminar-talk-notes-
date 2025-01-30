@@ -1,0 +1,170 @@
+\newpage
+\section{Part 2: The (co)Bar Construction} % - Monads and Descent
+% This section draws heavily on the following works; \cite[Part 3,4]{Matthew2014}, \cite[Part 1]{Mathew2017}, and \cite[Section 3]{Mor2023}.
+
+Given a faithfully flat map $A \xrightarrow{f} B$ of discrete commutative rings we have the diagram
+    \begin{center}
+    \begin{tikzcd}
+        A
+            \arrow[r, "f"]
+        & B
+            \arrow[r, shift left = 1, "1 \otimes f"]
+            \arrow[r, shift right = 1, "f \otimes 1"']
+        & B \otimes_A B
+            \arrow[r]
+            \arrow[r, shift left = 2]
+            \arrow[r, shift right = 2]
+        & B \otimes_A B \otimes_A B
+    \end{tikzcd}
+    \end{center}
+given by tensoring with $f$ repeatedly. Classical descent theory is the statement that the 2-category of (discrete) $A$-modules $\Mod_A^0$ is given as the 2-categorical limit
+    \begin{center}
+    \vspace{-3ex}
+    \[
+        \Mod_A^0 \cong \lim\left(
+        \begin{tikzcd}
+            \Mod_B^0     \arrow[r, shift left = 1] \arrow[r, shift right = 1]
+            & \Mod_{B \otimes_A B}^0 \arrow[r] \arrow[r, shift left = 2] \arrow[r, shift right = 2]
+            & \Mod_{B \otimes_A B \otimes_A B}^0
+        \end{tikzcd}
+        \right)
+    \]
+    \end{center}
+This follows from $f$ being faithfully flat, since this implies the tensor-forget adjunction $\Mod_A \rightleftarrows \Mod_B$ is comonadic. We can extend this to $(\infty,1)$-categories by considering the \textbf{cobar construction} $CB^\bullet(f)$, which is the following (augmented) cosimplicial diagram
+    \begin{center}
+    \begin{tikzcd}
+        A       \arrow[r]
+        & B     \arrow[r, shift left = 1] \arrow[r, shift right = 1]
+        & B \otimes_A B \arrow[r] \arrow[r, shift left = 1.5] \arrow[r, shift right = 1.5]
+        & B \otimes_A B \otimes_A B \arrow[r, shift left = 0.5] \arrow[r, shift right = 0.5]\arrow[r, shift left = 1.5] \arrow[r, shift right = 1.5]
+        & \cdots
+    \end{tikzcd}
+    \end{center}
+with $\text{CB}^n(f) = B^{\otimes_A n}$. With certain nice conditions on $f$ one might hope to reconstruct $A$ as the limit of the cosimplicial cobar construction $A \cong \lim \text{CB}^\bullet(f)$. 
+
+\begin{theorem}[Barr-Beck-Lurie]{thm:Barr-Beck-Lurie}
+    An adjunction $F : \Ca \rightleftarrows \Da : G$ between two $(\infty,1)$-categories is comonadic if and only if
+        \begin{itemize}
+            \item[\textit{(i)}]{
+            $F$ is conservative
+            }
+            \item[\textit{(ii)}]{
+            If $X^\bullet : \Delta \to \Ca$ is a cosimplicial object in $\Ca$ such that $F(X^\bullet)$ splits in $\Da$, then $\text{Tot}(X^\bullet)$ exists and $F(\text{Tot}(X^\bullet)) = \text{Tot}(F(X^\bullet))$.  
+            }
+        \end{itemize}
+\end{theorem}
+
+\begin{definition}[Descendable Objects]{def:admit-descent}
+Let $(\Ca, \otimes, 1)$ be a stable presentable symmetric-monoidal $(\infty,1)$-category. An algebra $A \in \CAlg(\Ca)$ \textbf{admits descent} or is \textbf{descendable} if it generates $\Ca$ as a thick $\otimes$-ideal. 
+\end{definition}
+
+\begin{theorem}[{\cite[Prop 3.22]{Matthew2014}}]{thm:Barr-Beck-Lurie-ii}
+    Let $A \in \CAlg(\Ca)$ be a descendable object in a stable presentable symmetric-monoidal $(\infty,1)$-category $(\Ca, \otimes, 1)$, then the tensor-forget adjunction
+        \[
+        - \otimes A :
+        \Mod_A \rightleftarrows \Ca
+        : \underline{\Hom}(1,-)
+        \]
+    is comonadic, and gives an equivalence 
+        \[
+        \Ca \xrightarrow{\sim}
+        \text{Tot}\left(
+            \Mod_A
+                \rightrightarrows
+            \Mod_{A \otimes A}
+                \substack{\rightarrow\\[-0.1cm] \rightarrow \\[-0.1cm] \rightarrow}
+            \dots
+        \right).
+        \]
+\end{theorem}
+
+An algebra $A$ admits descent if and only if the thick $\otimes$-ideal $\mathcal{I}_A$ of $A$-zero maps (i.e. maps $f : B \to C$ such that $f \otimes \id_A \simeq 0$) is nilpotent, $\mathcal{I}_A^n = 0$ for some $n$. 
+
+
+\begin{definition}{def:coBar}
+    Let $\Ca$ be a category with comonad $T$, and let $\Ca^T$ be the category of free algebras for $T$ with free-forgetful adjunction $F : \Ca \leftrightarrows \Ca^T : U$. The \textbf{Bar construction} for $T$ is the (augmented) simplicial object 
+        \[
+        \text{Bar}_T : \mathbb{O}^\op \to \Hom(\Ca^T, \Ca^T)
+        \]
+    given by sending $[n]$ to $(FU)^n$. 
+\end{definition}
+
+
+Let $T$ be a monad on a category $\Ca$, and let $X$ be a $T$-algebra. The Bar construction for $T$ on $X$ is the simplicial object with $n$-simplicies given by $T^nX$, fitting into a diagram 
+    \[
+    \text{Bar}_T(X)_\bullet 
+    = \left(
+        \cdots TTX \rightrightarrows TX \to X
+    \right).
+    \]
+More precisely, we have the following construction.
+
+\begin{definition}{def:Bar}
+    Let $\Ca$ be a category with monad $T$, and let $\Ca^T$ be the category of free algebras for $T$ with free-forgetful adjunction $F : \Ca \leftrightarrows \Ca^T : U$. The \textbf{Bar construction} for $T$ is the (augmented) simplicial object 
+        \[
+        \text{Bar}_T : \mathbb{O}^\op \to \Hom(\Ca^T, \Ca^T)
+        \]
+    given by sending $[n]$ to $(FU)^n$. 
+\end{definition}
+
+The following theorem can be seen from the discussion \href{https://golem.ph.utexas.edu/category/2007/05/on_the_bar_construction.html}{here}\footnote{\url{https://golem.ph.utexas.edu/category/2007/05/on_the_bar_construction.html}}. In particular, for any resolution $Y_\bullet$ of $X$, along with map $X \to Y_{-1}$, there is a unique morphism $\text{Bar}_T(X)_\bullet \to Y_\bullet$ of resolutions. Applying the forgetful functor $U : \Ca^T \to \Ca$ then gives the following theorem. 
+
+\begin{theorem}{thm:bar-is-resolution}
+    There is a simplicial homotopy equivalence between the bar construction $U\text{Bar}_T(X)_\bullet$ and $UX$, after applying the forgetful functor $U : \Ca^T \to \Ca$;
+        \[
+        U\text{Bar}_T(X)_\bullet
+        \simeq UX,
+        \]
+    where $UX$ is the constant simplicial object at $UX$. 
+\end{theorem}
+
+\begin{env}[Algebras]{Example}{green!20}{ex:bar-algebra}
+    Let $A$ be an $R$-algebra for some ring $R$, and let $T$ be the monad on $\Mod_A$ given by $TM = M \otimes_R A$. The Bar construction of $T$ is then the simplicial complex 
+        \[
+        \text{Bar}_T(A)_\bullet =
+        \left(
+        \begin{tikzcd}
+            \cdots 
+                \arrow[r, shift left=2]
+                \arrow[r]
+                \arrow[r, shift right=2]
+            & M \otimes_R A \otimes_R A
+                \arrow[r, shift left, "m_A"]
+                \arrow[r, shift right, "\mu_M"']
+            & M \otimes_R A
+        \end{tikzcd}
+        \right).
+        \]
+    Under the Dold-Kan correspondence, this gives a free resolution of $A$ whose homology groups are the Hochschild homology of $A$.
+\end{env}
+
+Let $f : x \to y$ is a morphism in a category $\Ca$, and suppose we have a triple 
+    \[
+    \begin{tikzcd}[sep = large,labels=description]
+    \Ca_{/x}
+        \arrow[r, "f_!"{name=F}, bend left = 49, shift left]
+        \arrow[r, "f_\ast"{name=H}, bend right = 49, shift right]
+    & \Ca_{/y}
+        \arrow[l, "f^\ast"{name=G}]
+    %
+    \arrow[phantom, from=F, to=G, "\dashv" rotate=-90]
+    \arrow[phantom, from=G, to=H, "\dashv" rotate=-90]
+    \end{tikzcd}
+    \]
+then we have a monad $f^\ast f_!$ and a comonad $f^\ast f_\ast$. If $f_! \dashv f^\ast$ is a monadic adjunction (resp. if $f^\ast \dashv f_\ast$ is a comonadic adjunction) then $\Ca_{/y}$ is equivalent to the category of algebras over the monad $f^\ast f_!$ (resp coalgebras for the comonad $f^\ast f_\ast$). 
+
+\begin{env}[Principle Bundles]{Example}{green!20}{ex:principle-bundles}
+    Let $\pi : E \to X$ be a principle bundle (say, of topological spaces), and $f : X \to Y$ a morphism. We would like $f\pi : E \to Y$ to be a principle bundle, but of course it's not! One way to remedy this is to consider the composite
+        \[
+        \text{Bun}_{/X}
+        \xrightarrow{f_\ast} \Top_{/Y}
+        \xrightarrow{f^\ast} \Top_{/X} 
+        \]
+    and then we can ask how the map $f^\ast f_\ast E \to E$ in $\Top_{/X}$ behaves. Note that $f^\ast f_\ast E$ is still not typically a principle bundle, but we can use the \v{C}ech cover $\Ck(f)_\bullet$ of $f$ to measure it's failure to be one. 
+
+    {\color{red}TALK ABOUT THE \v{C}ECH COVER AND HOW IT GIVES FAILURE TO BE A BUNDLE.}
+
+    Note that we have a monad $f^\ast f_\ast$ on $\Top_{/X}$, which is 
+\end{env}
+
+% COBAR COMPLEX IS GIVEN BY CB(A) = Hom(B(A), k). 
